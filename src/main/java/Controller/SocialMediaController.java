@@ -19,9 +19,13 @@ import io.javalin.http.Context;
 public class SocialMediaController {
 
     private ObjectMapper mapper;
+    private AccountService accountService;
+    private MessageService messageService;
 
     public SocialMediaController() {
-        mapper = new ObjectMapper();
+        this.mapper = new ObjectMapper();
+        this.accountService = new AccountService();
+        this.messageService = new MessageService();
     }
 
     /**
@@ -46,7 +50,7 @@ public class SocialMediaController {
     private void userRegistrationHandler(Context context) throws JsonProcessingException {
 
         Account account = this.mapper.readValue(context.body(), Account.class);
-        Account registeredAccount = AccountService.registerAccount(account);
+        Account registeredAccount = this.accountService.registerAccount(account);
         if (registeredAccount == null) {
             context.status(400);
         } else {

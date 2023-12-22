@@ -12,7 +12,16 @@ public class AccountService {
     }
 
     public Account registerAccount(Account account) {
+        if (account.getUsername().length() == 0 ||
+            account.getPassword().length() < 4 ||
+            this.getAccountByUsername(account.getUsername()) != null) {
+                return null;
+        }
         return this.account.registerAccount(account);
+    }
+
+    public Account getAccountByUsername(String username) {
+        return this.account.getAccountByUsername(username);
     }
     
     
