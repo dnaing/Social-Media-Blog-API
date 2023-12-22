@@ -39,6 +39,7 @@ public class SocialMediaController {
         app.post("/register", this::userRegistrationHandler);
         app.post("/login", this::verifyLoginHandler);
         app.post("/messages", this::createMessageHandler);
+        app.get("messages", this::getAllMessagesHandler);
 
         return app;
     }
@@ -80,5 +81,10 @@ public class SocialMediaController {
             context.json(createdMessage);
             context.status(200);
         }
+    }
+
+    private void getAllMessagesHandler(Context context) throws JsonProcessingException {
+        context.json(messageService.getAllMessages());
+        context.status(200);
     }
 }
