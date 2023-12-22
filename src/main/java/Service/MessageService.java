@@ -59,4 +59,8 @@ public class MessageService {
         // return new Message(0,"Hi",0);
     }
 
+    public List<Message> getAllMessagesForAccount(String accountId) {
+        return messageDAO.getAllMessagesForAccount(accountId);
+    }
+
 }
