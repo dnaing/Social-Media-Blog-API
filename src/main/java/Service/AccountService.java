@@ -23,6 +23,11 @@ public class AccountService {
     public Account getAccountByUsername(String username) {
         return accountDAO.getAccountByUsername(username);
     }
+
+    public Account getAccountByUserAndPass(String username, String password) {
+        return accountDAO.getAccountByUserAndPass(username, password);
+    }
+
     
     
 }
