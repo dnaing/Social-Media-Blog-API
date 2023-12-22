@@ -1,5 +1,13 @@
 package Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import Model.Account;
+import Model.Message;
+import Service.AccountService;
+import Service.MessageService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -9,6 +17,13 @@ import io.javalin.http.Context;
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
 public class SocialMediaController {
+
+    private ObjectMapper mapper;
+
+    public SocialMediaController() {
+        mapper = new ObjectMapper();
+    }
+
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
@@ -16,7 +31,8 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        app.get("example-endpoint", this::exampleHandler);
+
+        app.post("/register", this::userRegistrationHandler);
 
         return app;
     }
@@ -24,9 +40,21 @@ public class SocialMediaController {
     /**
      * This is an example handler for an example endpoint.
      * @param context The Javalin Context object manages information about both the HTTP request and response.
+     * @throws JsonProcessingException
+     * @throws JsonMappingException
      */
-    private void exampleHandler(Context context) {
-        context.json("sample text");
+    private void userRegistrationHandler(Context context) throws JsonProcessingException {
+
+        Account account = this.mapper.readValue(context.body(), Account.class);
+        Account registeredAccount = AccountService.registerAccount(account);
+        if (registeredAccount == null) {
+            context.status(400);
+        } else {
+            context.json(account);
+            context.status(200);
+        }
+
+        
     }
 
 
