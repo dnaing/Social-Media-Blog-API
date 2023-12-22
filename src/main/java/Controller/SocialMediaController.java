@@ -38,6 +38,7 @@ public class SocialMediaController {
 
         app.post("/register", this::userRegistrationHandler);
         app.post("/login", this::verifyLoginHandler);
+        app.post("/messages", this::createMessageHandler);
 
         return app;
     }
@@ -49,7 +50,6 @@ public class SocialMediaController {
      * @throws JsonMappingException
      */
     private void userRegistrationHandler(Context context) throws JsonProcessingException {
-
         Account account = mapper.readValue(context.body(), Account.class);
         Account registeredAccount = accountService.registerAccount(account);
         if (registeredAccount == null) {
@@ -69,8 +69,16 @@ public class SocialMediaController {
             context.json(retrievedAccount);
             context.status(200);
         }
-
     }
 
-
+    private void createMessageHandler(Context context) throws JsonProcessingException {
+        Message message = mapper.readValue(context.body(), Message.class);
+        Message createdMessage = messageService.createMessage(message);
+        if (createdMessage == null) {
+            context.status(400);
+        } else {
+            context.json(createdMessage);
+            context.status(200);
+        }
+    }
 }

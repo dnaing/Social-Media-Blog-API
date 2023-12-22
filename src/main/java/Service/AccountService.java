@@ -12,7 +12,8 @@ public class AccountService {
     }
 
     public Account registerAccount(Account account) {
-        if (account.getUsername().length() == 0 ||
+        if (
+            account.getUsername().length() == 0 ||
             account.getPassword().length() < 4 ||
             getAccountByUsername(account.getUsername()) != null) {
                 return null;
