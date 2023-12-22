@@ -49,16 +49,14 @@ public class SocialMediaController {
      */
     private void userRegistrationHandler(Context context) throws JsonProcessingException {
 
-        Account account = this.mapper.readValue(context.body(), Account.class);
-        Account registeredAccount = this.accountService.registerAccount(account);
+        Account account = mapper.readValue(context.body(), Account.class);
+        Account registeredAccount = accountService.registerAccount(account);
         if (registeredAccount == null) {
             context.status(400);
         } else {
-            context.json(account);
+            context.json(registeredAccount);
             context.status(200);
         }
-
-        
     }
 
 
