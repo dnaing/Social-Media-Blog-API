@@ -45,4 +45,18 @@ public class MessageService {
         return messageToDelete;
     }
 
+    public Message updateMessageByID(String id, String messageText) {
+        
+        if (
+            messageText.length() == 0 ||
+            messageText.length() > 255 ||
+            getMessageByID(id) == null
+        ) {
+            return null;
+        }
+        messageDAO.updateMessageByID(id, messageText);
+        return messageDAO.getMessageByID(id);
+        // return new Message(0,"Hi",0);
+    }
+
 }
